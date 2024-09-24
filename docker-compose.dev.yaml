@@ -1,0 +1,12 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "${RABBITMQ_PORT_AMQP}:5672" # Porta para comunicação AMQP
+      - "${RABBITMQ_PORT_WEB}:15672" # Porta para o painel de controle do RabbitMQ (interface web)
+    hostname: rabbitmq
+    volumes:
+      - ./rabbitmq_data:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER} # Usuário padrão (por padrão, é "guest")
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS} # Senha padrão (por padrão, é "guest")
