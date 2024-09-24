@@ -20,21 +20,23 @@ class RabbitMQConfig:
             credentials=credentials
         )
         self.connection = pika.BlockingConnection(parameters)
-        self.channel = self.connection.channel()
 
 
-    def declare_queue(self, queue_name):
+    def declare_queue(self, queue_name, channel):
         """Declara uma fila."""
-        self.channel.queue_declare(queue=queue_name, durable=True)
         print(f"Fila '{queue_name}' declarada.")
+        channel.queue_declare(queue=queue_name, durable=True)
 
-    def close(self):
-        """Fecha a conexão e o canal."""
-        if self.channel:
-            self.channel.close()
-        if self.connection:
-            self.connection.close()
-        print("Conexão fechada com RabbitMQ.")
+    # def close(self):
+    #     """Fecha a conexão e o canal."""
+    #     if self.channel:
+    #         self.channel.close()
+    #     if self.connection:
+    #         self.connection.close()
+    #     print("Conexão fechada com RabbitMQ.")
+
+    def create_channel(self):
+        return self.connection.channel()
 
 
 if __name__ == "__main__":
